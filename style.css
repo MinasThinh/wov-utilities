@@ -1,0 +1,47 @@
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,opsz,wght@0,18..144,300..900;1,18..144,300..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Huninn&display=swap');
+
+body {
+    background-color: #F3DBDB;
+}
+
+.players {
+  display: grid;
+  max-width: 600px;
+  grid-template-columns: repeat(4, 1fr); 
+  gap: 12px;
+  padding: 10px;
+}
+
+.players button {
+  aspect-ratio: 1;  
+  border-radius: 12px;
+  background: #3498db;
+  color: white;
+  border: none;
+  transition: 0.2s;
+  font-size: 0.9rem;
+  padding: 0.5rem;
+  border-radius: 8px;
+}
+
+.players button:hover {
+  background: #2980b9;
+}
+
+.properties {
+  background-color: #093b55;
+  position: absolute;
+  visibility: hidden;
+  border-radius: 20px;
+}
+.properties h1 {
+  font-family: "Huninn", sans-serif;
+  margin-left: 20px;
+  color: white;
+}
+.properties div { 
+  color: yellow;
+  position: relative;
+  z-index: 1;
+}
