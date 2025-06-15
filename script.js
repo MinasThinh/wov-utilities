@@ -556,8 +556,10 @@ for(let i = 0;i<players.length;++i) {
     }
 }
 
-window.onload = () => {
-    console.log("window loading")
+window.onload = async () => {
+    const loadingcontent = document.querySelector('.loadingcontent')
+    loadingcontent.innerHTML = "Loading panels..."
+    await new Promise(r => setTimeout(r, 300))
     const rect = players[3].getBoundingClientRect()
     properties.style.left = rect.left + rect.width + 30 + "px"
     properties.style.top = rect.top + "px"
@@ -567,7 +569,8 @@ window.onload = () => {
     document.querySelector('.rolepanel').style.maxHeight = (innerHeight - 10) + "px"
     document.querySelector('.aurapanel').style.maxHeight = (innerHeight - 10) + "px"
     document.querySelector('.teampanel').style.maxHeight = (innerHeight - 10) + "px"
-    for (let i = 0;i<roles.length;++i) {
+    loadingcontent.innerHTML = `Loading roles... (0/${roles.length})`
+    for (let i = 0; i < roles.length; ++i) {
         let elm = document.createElement("button")
         let img = document.createElement("img")
         let span = document.createElement("span")
@@ -578,7 +581,7 @@ window.onload = () => {
         img.style.marginLeft = "0";
         img.style.border = "2px solid white";
         span.textContent = roles[i].name
-        elm.appendChild(img)        
+        elm.appendChild(img)
         elm.appendChild(span)
         elm.style.display = "flex"
         elm.style.alignItems = "center"
@@ -593,7 +596,7 @@ window.onload = () => {
         elm.style.transition = "background 0.2 ease"
         elm.style.fontFamily = "'Huninn', sans-serif"
         elm.style.width = "200px"
-        elm.addEventListener("click", function() {
+        elm.addEventListener("click", function () {
             database[playerSeleteced].role = roles[i].name
             document.querySelector('.properties .role').textContent = "Role: " + roles[i].name
             players[playerSeleteced].style.background = "url(" + img.src + ")"
@@ -602,8 +605,13 @@ window.onload = () => {
             players[playerSeleteced].style.backgroundPosition = "center"
         })
         document.querySelector('.rolepanel').appendChild(elm)
+
+        loadingcontent.innerHTML = `Loading roles... (${i + 1}/${roles.length})`
+        await new Promise(r => setTimeout(r, 1))
     }
-    for (let i = 0;i<auras.length;++i) {
+
+    loadingcontent.innerHTML = `Loading auras... (0/${auras.length})`
+    for (let i = 0; i < auras.length; ++i) {
         let elm = document.createElement("button")
         let img = document.createElement("img")
         let span = document.createElement("span")
@@ -614,7 +622,7 @@ window.onload = () => {
         img.style.marginLeft = "0";
         img.style.border = "2px solid white";
         span.textContent = auras[i]
-        elm.appendChild(img)        
+        elm.appendChild(img)
         elm.appendChild(span)
         elm.style.display = "flex"
         elm.style.alignItems = "center"
@@ -629,13 +637,18 @@ window.onload = () => {
         elm.style.transition = "background 0.2 ease"
         elm.style.fontFamily = "'Huninn', sans-serif"
         elm.style.width = "200px"
-        elm.addEventListener("click", function() {
+        elm.addEventListener("click", function () {
             database[playerSeleteced].aura = auras[i]
             document.querySelector('.properties .aura').textContent = "Aura: " + auras[i]
         })
         document.querySelector('.aurapanel').appendChild(elm)
+
+        loadingcontent.innerHTML = `Loading auras... (${i + 1}/${auras.length})`
+        await new Promise(r => setTimeout(r, 1))
     }
-    for (let i = 0;i<teams.length;++i) {
+
+    loadingcontent.innerHTML = `Loading teams... (0/${teams.length})`
+    for (let i = 0; i < teams.length; ++i) {
         let elm = document.createElement("button")
         let img = document.createElement("img")
         let span = document.createElement("span")
@@ -646,7 +659,7 @@ window.onload = () => {
         img.style.marginLeft = "0";
         img.style.border = "2px solid white";
         span.textContent = teams[i]
-        elm.appendChild(img)        
+        elm.appendChild(img)
         elm.appendChild(span)
         elm.style.display = "flex"
         elm.style.alignItems = "center"
@@ -661,12 +674,22 @@ window.onload = () => {
         elm.style.transition = "background 0.2 ease"
         elm.style.fontFamily = "'Huninn', sans-serif"
         elm.style.width = "200px"
-        elm.addEventListener("click", function() {
+        elm.addEventListener("click", function () {
             database[playerSeleteced].team = teams[i]
             document.querySelector('.properties .team').textContent = "Team: " + teams[i]
         })
         document.querySelector('.teampanel').appendChild(elm)
+
+        loadingcontent.innerHTML = `Loading teams... (${i + 1}/${teams.length})`
+        await new Promise(r => setTimeout(r, 1))
     }
+
+    // Show content sau khi load xong
+    document.querySelector('.players').style.visibility = "visible"
+    document.querySelector('.rolepanel').style.visibility = "visible"
+    document.querySelector('.aurapanel').style.visibility = "visible"
+    document.querySelector('.teampanel').style.visibility = "visible"
+    document.querySelector('.loader-wrapper').style.display = "none"
 };
 
 const searchInput = document.getElementById("searchInput")
@@ -727,6 +750,20 @@ searchInput.addEventListener("keydown", (e) => {
     if (e.key === "Enter") {
         const firstButton = rolePanel.querySelector("button")
         if (firstButton) firstButton.click()
+    }
+})
+
+document.querySelector('.reset').addEventListener("click", function() {
+    document.querySelector('.properties .role').textContent = "Role: #"
+    document.querySelector('.properties .aura').textContent = "Aura: #"
+    document.querySelector('.properties .team').textContent = "Team: #"
+    for(let i = 0;i<players.length;++i) {
+        players[i].style.background = "#3498db"   
+        database[i] = {
+            "role": "#",
+            "aura": "#",
+            "team": "#"
+        }
     }
 })
 
