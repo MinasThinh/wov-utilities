@@ -3,6 +3,7 @@
 
 body {
     background-color: #F3DBDB;
+    overflow-x: hidden;
 }
 
 .players {
@@ -18,7 +19,7 @@ body {
   border-radius: 12px;
   background: #3498db;
   color: white;
-  border: none;
+  border: 5px solid white;
   transition: 0.2s;
   font-size: 0.9rem;
   padding: 0.5rem;
@@ -49,28 +50,24 @@ body {
 .properties div:hover {
   color: yellowgreen;
 }
-.bacsi {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 10px 16px;
-    border: none;
-    border-radius: 8px;
-    background-color: #4f46e5;
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background 0.2s ease;
-    font-family: 'Consolas', sans-serif;
-}
 
-.bacsi img {
-    width: 20px;
-    height: 20px;
-    margin-right: 10px; 
-    margin-left: 0;
-}
-
-.bacsi:hover {
+.rolepanel button:hover , .aurapanel button:hover, .teampanel button:hover{
     background-color: #4338ca;
+}
+.rolepanel .title, .aurapanel .title, .teampanel .title {
+  text-align: center;
+}
+
+.rolepanel , .aurapanel, .teampanel{
+  border: 2px solid blue;  
+  border-radius: 20px;
+  color: white;
+  position: absolute;
+  top: 0px;
+  width: 200px;
+  max-height: 100vh;
+  background-color: rgb(52, 113, 162);
+  transition: left 0.5s ease-in-out;
+  overflow-y: auto;
+  overflow-x: hidden;
 }

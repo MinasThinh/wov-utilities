@@ -6,6 +6,11 @@ var database = []
 
 var roles = [
     {
+        "name": "Ác dịch",
+        "filename": "Ác dịch.png",
+        "abbrev": "dich",
+    },
+    {
         "name": "Bác sĩ",
         "filename": "Bác sĩ.png",
         "abbrev": "bs",
@@ -81,7 +86,7 @@ var roles = [
         "abbrev": "bh",
     },
     {
-        "name": "Cậu bé miệng bw",
+        "name": "Cậu bé miệng bự",
         "filename": "Cậu bé miệng bự.png",
         "abbrev": "mieng",
     },
@@ -136,8 +141,8 @@ var roles = [
         "abbrev": "trilong",
     },
     {
-        "name": "Thẳng ngố",
-        "filename": "Thẳng ngố.png",
+        "name": "Thằng ngố",
+        "filename": "Thằng ngố.png",
         "abbrev": "ngo",
     },
     {
@@ -181,8 +186,8 @@ var roles = [
         "abbrev": "luc",
     },
     {
-        "name": "Tiên tri tập sư",
-        "filename": "Tiên tri tập sư.png",
+        "name": "Tiên tri tập sự",
+        "filename": "Tiên tri tập sự.png",
         "abbrev": "tritap",
     },
     {
@@ -311,8 +316,8 @@ var roles = [
         "abbrev": "paci",
     },
     {
-        "name": "Kẻ xúi gục",
-        "filename": "Kẻ xúi gục.png",
+        "name": "Kẻ xúi giục",
+        "filename": "Kẻ xúi giục.png",
         "abbrev": "xui",
     },
     {
@@ -456,11 +461,6 @@ var roles = [
         "abbrev": "sat",
     },
     {
-        "name": "Ác dịch",
-        "filename": "Ác dịch.png",
-        "abbrev": "dich",
-    },
-    {
         "name": "Kẻ biến hình",
         "filename": "Kẻ biến hình.png",
         "abbrev": "bien",
@@ -475,30 +475,60 @@ var roles = [
         "filename": "Xác sống.png",
         "abbrev": "xac",
     },
-    {
-        "name": "Dân làng",
-        "filename": "Dân làng.png",
-        "abbrev": "dan",
-    },
-    {
-        "name": "Ma sói",
-        "filename": "Ma sói.png",
-        "abbrev": "soi",
-    },
-    {
-        "name": "Solo",
-        "filename": "Solo.png",
-        "abbrev": "solo",
-    },
 ]
 var auras = ["Thiện", "Ác", "Không rõ"]
 var teams = ["Dân làng", "Ma sói", "Solo"]
 
+var playerSeleteced = 0
+var panelClicked = "none"
 
+document.querySelector('#editrole').addEventListener("click", function() {
+    if (panelClicked != "none") {
+        document.querySelector('.' + panelClicked).style.left = innerWidth + "px"
+        if (panelClicked == "rolepanel") {
+            panelClicked = "none"
+            return 
+        } else panelClicked = "rolepanel"
+    }
+    else panelClicked = "rolepanel"
+
+    let panel = document.querySelector('.rolepanel')
+    panel.style.left = (innerWidth - panel.getBoundingClientRect().width) + "px"
+})
+document.querySelector('#editaura').addEventListener("click", function() {
+    if (panelClicked != "none") {
+        document.querySelector('.' + panelClicked).style.left = innerWidth + "px"
+        if (panelClicked == "aurapanel") {
+            panelClicked = "none"
+            return
+        } else panelClicked = "aurapanel"
+        
+    }
+    else panelClicked = "aurapanel"
+
+    let panel = document.querySelector('.aurapanel')
+    panel.style.left = (innerWidth - panel.getBoundingClientRect().width) + "px"
+})
+document.querySelector('#editteam').addEventListener("click", function() {
+    if (panelClicked != "none") {
+        document.querySelector('.' + panelClicked).style.left = innerWidth + "px"
+        if (panelClicked == "teampanel") {
+            panelClicked = "none"
+            return
+        } else panelClicked = "teampanel"
+        
+    }
+    else panelClicked = "teampanel"
+
+    let panel = document.querySelector('.teampanel')
+    panel.style.left = (innerWidth - panel.getBoundingClientRect().width) + "px"
+})
 
 function showproperties(playerID) {
+    playerSeleteced = playerID
     let player = players[playerID]
     let db = database[playerID]
+    players[playerID].style.borderColor = "yellowgreen"
     document.querySelector('.properties').style.width = (window.innerWidth/2 - parseInt(properties.style.left)/2) + "px"
     document.querySelector('.properties .id').textContent = "Player #" + (playerID + 1)
     document.querySelector('.properties .role').textContent = "Role: " + db["role"]
@@ -516,6 +546,7 @@ function showproperties(playerID) {
 
 for(let i = 0;i<players.length;++i) {
     players[i].addEventListener("click", function() {
+        players[playerSeleteced].style.borderColor = "white"
         showproperties(i)
     })
     database[i] = {
@@ -530,4 +561,111 @@ window.onload = () => {
     const rect = players[3].getBoundingClientRect()
     properties.style.left = rect.left + rect.width + 30 + "px"
     properties.style.top = rect.top + "px"
+    document.querySelector('.rolepanel').style.left = innerWidth + "px"
+    document.querySelector('.aurapanel').style.left = innerWidth + "px"
+    document.querySelector('.teampanel').style.left = innerWidth + "px"
+    document.querySelector('.rolepanel').style.maxHeight = (innerHeight - 10) + "px"
+    document.querySelector('.aurapanel').style.maxHeight = (innerHeight - 10) + "px"
+    document.querySelector('.teampanel').style.maxHeight = (innerHeight - 10) + "px"
+    for (let i = 0;i<roles.length;++i) {
+        let elm = document.createElement("button")
+        let img = document.createElement("img")
+        let span = document.createElement("span")
+        img.src = "assests/roles/" + roles[i].filename
+        img.style.width = "40px";
+        img.style.height = "40px";
+        img.style.marginRight = "10px";
+        img.style.marginLeft = "0";
+        img.style.border = "2px solid white";
+        span.textContent = roles[i].name
+        elm.appendChild(img)        
+        elm.appendChild(span)
+        elm.style.display = "flex"
+        elm.style.alignItems = "center"
+        elm.style.gap = "8px"
+        elm.style.padding = "10px 16px"
+        elm.style.border = "none"
+        elm.style.borderRadius = "8px"
+        elm.style.backgroundColor = "#4f46e5"
+        elm.style.color = "white"
+        elm.style.fontSize = "16px"
+        elm.style.cursor = "pointer"
+        elm.style.transition = "background 0.2 ease"
+        elm.style.fontFamily = "'Huninn', sans-serif"
+        elm.style.width = "200px"
+        elm.addEventListener("click", function() {
+            database[playerSeleteced].role = roles[i].name
+            document.querySelector('.properties .role').textContent = "Role: " + roles[i].name
+            players[playerSeleteced].style.background = "url(" + img.src + ")"
+            players[playerSeleteced].style.backgroundSize = "contain"
+            players[playerSeleteced].style.backgroundRepeat = "no-repeat"
+            players[playerSeleteced].style.backgroundPosition = "center"
+        })
+        document.querySelector('.rolepanel').appendChild(elm)
+    }
+    for (let i = 0;i<auras.length;++i) {
+        let elm = document.createElement("button")
+        let img = document.createElement("img")
+        let span = document.createElement("span")
+        img.src = "assests/auras/" + auras[i] + ".png"
+        img.style.width = "40px";
+        img.style.height = "40px";
+        img.style.marginRight = "10px";
+        img.style.marginLeft = "0";
+        img.style.border = "2px solid white";
+        span.textContent = auras[i]
+        elm.appendChild(img)        
+        elm.appendChild(span)
+        elm.style.display = "flex"
+        elm.style.alignItems = "center"
+        elm.style.gap = "8px"
+        elm.style.padding = "10px 16px"
+        elm.style.border = "none"
+        elm.style.borderRadius = "8px"
+        elm.style.backgroundColor = "#4f46e5"
+        elm.style.color = "white"
+        elm.style.fontSize = "16px"
+        elm.style.cursor = "pointer"
+        elm.style.transition = "background 0.2 ease"
+        elm.style.fontFamily = "'Huninn', sans-serif"
+        elm.style.width = "200px"
+        elm.addEventListener("click", function() {
+            database[playerSeleteced].aura = auras[i]
+            document.querySelector('.properties .aura').textContent = "Aura: " + auras[i]
+        })
+        document.querySelector('.aurapanel').appendChild(elm)
+    }
+    for (let i = 0;i<teams.length;++i) {
+        let elm = document.createElement("button")
+        let img = document.createElement("img")
+        let span = document.createElement("span")
+        img.src = "assests/teams/" + teams[i] + ".png"
+        img.style.width = "40px";
+        img.style.height = "40px";
+        img.style.marginRight = "10px";
+        img.style.marginLeft = "0";
+        img.style.border = "2px solid white";
+        span.textContent = teams[i]
+        elm.appendChild(img)        
+        elm.appendChild(span)
+        elm.style.display = "flex"
+        elm.style.alignItems = "center"
+        elm.style.gap = "8px"
+        elm.style.padding = "10px 16px"
+        elm.style.border = "none"
+        elm.style.borderRadius = "8px"
+        elm.style.backgroundColor = "#4f46e5"
+        elm.style.color = "white"
+        elm.style.fontSize = "16px"
+        elm.style.cursor = "pointer"
+        elm.style.transition = "background 0.2 ease"
+        elm.style.fontFamily = "'Huninn', sans-serif"
+        elm.style.width = "200px"
+        elm.addEventListener("click", function() {
+            database[playerSeleteced].team = teams[i]
+            document.querySelector('.properties .team').textContent = "Team: " + teams[i]
+        })
+        document.querySelector('.teampanel').appendChild(elm)
+    }
+
 };
