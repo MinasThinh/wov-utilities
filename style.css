@@ -7,7 +7,7 @@ body {
 
 .players {
   display: grid;
-  max-width: 600px;
+  max-width: 500px;
   grid-template-columns: repeat(4, 1fr); 
   gap: 12px;
   padding: 10px;
@@ -42,6 +42,35 @@ body {
 }
 .properties div { 
   color: yellow;
-  position: relative;
-  z-index: 1;
+  z-index: 100;
+  position: absolute;
+  cursor: pointer;
+}
+.properties div:hover {
+  color: yellowgreen;
+}
+.bacsi {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 8px;
+    background-color: #4f46e5;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    font-family: 'Consolas', sans-serif;
+}
+
+.bacsi img {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px; 
+    margin-left: 0;
+}
+
+.bacsi:hover {
+    background-color: #4338ca;
 }
