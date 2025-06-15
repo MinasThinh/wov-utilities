@@ -667,5 +667,67 @@ window.onload = () => {
         })
         document.querySelector('.teampanel').appendChild(elm)
     }
-
 };
+
+const searchInput = document.getElementById("searchInput")
+const rolePanel = document.querySelector(".rolepanel")
+
+function renderRoles(filterText = "") {
+    rolePanel.querySelectorAll("button").forEach(e => e.remove())
+
+    for (let i = 0; i < roles.length; ++i) {
+        const role = roles[i]
+        const query = filterText.toLowerCase()
+        if (
+            role.name.toLowerCase().includes(query) ||
+            role.abbrev.toLowerCase().includes(query)
+        ) {
+            let elm = document.createElement("button")
+            let img = document.createElement("img")
+            let span = document.createElement("span")
+            img.src = "assests/roles/" + role.filename
+            img.style.width = "40px";
+            img.style.height = "40px";
+            img.style.marginRight = "10px";
+            img.style.marginLeft = "0";
+            img.style.border = "2px solid white";
+            span.textContent = role.name
+            elm.appendChild(img)
+            elm.appendChild(span)
+            elm.style.display = "flex"
+            elm.style.alignItems = "center"
+            elm.style.gap = "8px"
+            elm.style.padding = "10px 16px"
+            elm.style.border = "none"
+            elm.style.borderRadius = "8px"
+            elm.style.backgroundColor = "#4f46e5"
+            elm.style.color = "white"
+            elm.style.fontSize = "16px"
+            elm.style.cursor = "pointer"
+            elm.style.transition = "background 0.2 ease"
+            elm.style.fontFamily = "'Huninn', sans-serif"
+            elm.style.width = "200px"
+            elm.addEventListener("click", function () {
+                database[playerSeleteced].role = role.name
+                document.querySelector('.properties .role').textContent = "Role: " + role.name
+                players[playerSeleteced].style.background = "url(" + img.src + ")"
+                players[playerSeleteced].style.backgroundSize = "contain"
+                players[playerSeleteced].style.backgroundRepeat = "no-repeat"
+                players[playerSeleteced].style.backgroundPosition = "center"
+            })
+            rolePanel.appendChild(elm)
+        }
+    }
+}
+
+searchInput.addEventListener("input", () => {
+    renderRoles(searchInput.value)
+})
+searchInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+        const firstButton = rolePanel.querySelector("button")
+        if (firstButton) firstButton.click()
+    }
+})
+
+renderRoles()
