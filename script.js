@@ -482,6 +482,8 @@ var teams = ["Dân làng", "Ma sói", "Solo"]
 var playerSeleteced = 0
 var panelClicked = "none"
 
+var QuickGameRoles = ["Bảo vệ", "Lực sĩ", "Người canh gác", "Xạ thủ", "Ná thủ", "Thầy bói", "Nhà ngoại cảm", "Con bạc", "Thám tử", "Pháp y","Thầy đồng", "Thầy cúng", "Người gọi hồn", "Kẻ gắn hồn", "Người lái đò", "Thị trưởng", "Thợ làm bánh", "Bà già khó tính", "Người thuyết giáo","Phù thuỷ", "Thợ rèn", "Nhà thiên văn học", "Thợ săn quái thú", "Người đặt bẫy", "Người gắn cờ", "Bán sói", "Kẻ hâm mộ ma sói", "Kẻ trộm mộ", "Kẻ vô danh", "Sói trẻ", "Sói phân tách", "Sói mèo con", "Sói thao túng", "Sói hắc ám", "Sói điên cuồng", "Sói độc tố", "Sói đầu đàn", "Sói bướng bỉnh", "Sói chiêu hồn", "Sói ma", "Sói tiên tri", "Sói phù thuỷ", "Sói mù", "Thằng ngố", "Thợ săn người", "Kẻ hỗn loạn","Kẻ phóng hoả", "Nhà giả kim", "Nhân ngư"]
+
 document.querySelector('#editrole').addEventListener("click", function() {
     if (panelClicked != "none") {
         document.querySelector('.' + panelClicked).style.left = innerWidth + "px"
@@ -697,14 +699,27 @@ const rolePanel = document.querySelector(".rolepanel")
 
 function renderRoles(filterText = "") {
     rolePanel.querySelectorAll("button").forEach(e => e.remove())
-
+    let QuickGameRolesOnly = false
+    if (filterText == "q")
+        QuickGameRolesOnly = true
+    
     for (let i = 0; i < roles.length; ++i) {
+        let isRoleVaild = false
         const role = roles[i]
         const query = filterText.toLowerCase()
         if (
-            role.name.toLowerCase().includes(query) ||
-            role.abbrev.toLowerCase().includes(query)
-        ) {
+            !QuickGameRolesOnly &&
+            (role.name.toLowerCase().includes(query) ||
+            role.abbrev.toLowerCase().includes(query))
+        ) isRoleVaild = true
+        if (QuickGameRolesOnly) {
+            for(let ch = 0;ch<QuickGameRoles.length;++ch) 
+                if (QuickGameRoles[ch] == role.name) {
+                    isRoleVaild = true
+                    break
+                }
+        }
+        if (isRoleVaild) {
             let elm = document.createElement("button")
             let img = document.createElement("img")
             let span = document.createElement("span")
